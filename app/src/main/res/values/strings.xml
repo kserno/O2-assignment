@@ -15,6 +15,7 @@
 
     <string name="loading">Loading</string>
     <string name="retry">Retry</string>
+
     <string name="error__unknown_error">Unknown error\n</string>
     <string name="error__mapping_exception">Error mapping values</string>
     <string name="error__card_not_scratched">Card not scratched yet</string>

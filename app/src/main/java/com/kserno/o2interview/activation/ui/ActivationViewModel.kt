@@ -50,10 +50,10 @@ class ActivationViewModel @Inject constructor(
                     ifRight = { onActivateSuccess() },
                 )
         }
-        hideLoading()
     }
 
     private fun onActivateSuccess() {
+        hideLoading()
         emitSnackbar(
             SnackbarEvent.SuccessSnackbar(
                 message = resourceResolver.getString(R.string.activation__success_snackbar_title),
@@ -62,6 +62,7 @@ class ActivationViewModel @Inject constructor(
     }
 
     private fun onActivateFailed(throwable: Throwable) {
+        hideLoading()
         emitSnackbar(exceptionUiMapper.map(throwable, retry = ::activate))
     }
 }

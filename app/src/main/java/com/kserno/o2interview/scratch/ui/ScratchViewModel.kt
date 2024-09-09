@@ -71,14 +71,15 @@ class ScratchViewModel @Inject constructor(
                     ifRight = { onScratchSuccess() },
                 )
         }
-        hideLoading()
     }
 
     private fun onScratchFailed(throwable: Throwable) {
+        hideLoading()
         emitSnackbar(exceptionUiMapper.map(throwable, ::scratch))
     }
 
     private fun onScratchSuccess() {
+        hideLoading()
         emitSnackbar(SnackbarEvent.InfoSnackbar(resourceResolver.getString(R.string.scratch__scratched_success)))
     }
 }
