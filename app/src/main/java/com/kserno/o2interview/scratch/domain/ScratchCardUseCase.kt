@@ -18,7 +18,7 @@ class ScratchCardUseCase @Inject constructor(
 
     override suspend fun invoke(input: Unit): Either<Throwable, Unit> {
         return Either.catch {
-            delay(LONG_OPERATION_DELAY)
+            delay(LONG_OPERATION_DELAY) // for testing the cancellation of action
             val code = scratchCodeGenerator.generateCode()
             cardRepository.card = Card.ScratchedCard(code)
         }
