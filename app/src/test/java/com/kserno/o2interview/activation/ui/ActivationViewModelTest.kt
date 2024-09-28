@@ -6,7 +6,6 @@ import arrow.core.left
 import arrow.core.right
 import com.kserno.o2interview.R
 import com.kserno.o2interview.activation.domain.ActivateCardUseCase
-import com.kserno.o2interview.core.ResourceResolver
 import com.kserno.o2interview.core.exception.ExceptionUiMapper
 import com.kserno.o2interview.core.invoke
 import com.kserno.o2interview.testutil.MainDispatcherRule
@@ -29,12 +28,11 @@ class ActivationViewModelTest {
 
     private val activateCardUseCase: ActivateCardUseCase = mockk()
     private val exceptionUiMapper: ExceptionUiMapper = mockk()
-    private val resourceResolver: ResourceResolver = mockk()
 
     private lateinit var viewModel: ActivationViewModel
 
     private fun createViewModel() {
-        viewModel = ActivationViewModel(activateCardUseCase, exceptionUiMapper, resourceResolver)
+        viewModel = ActivationViewModel(activateCardUseCase, exceptionUiMapper)
     }
 
     @Before
@@ -55,14 +53,13 @@ class ActivationViewModelTest {
     @Test
     fun `Given activation successful When activate clicked Then show success snackbar`() = runTest {
         coEvery { activateCardUseCase.invoke() } returns Unit.right()
-        every { resourceResolver.getString(R.string.activation__success_snackbar_title) } returns "Success"
         createViewModel()
 
         viewModel.onAction(Action.ActivateClick)
 
         viewModel.snackbarFlow.test {
             val item = awaitItem() as SnackbarEvent.SuccessSnackbar
-            item.message shouldBe "Success"
+            item.message shouldBe R.string.activation__success_snackbar_title.asResourceString()
         }
     }
 
@@ -84,7 +81,6 @@ class ActivationViewModelTest {
     @Test
     fun `When clicked activate Then show correct loading state`() = runTest {
         coEvery { activateCardUseCase.invoke() } returns Unit.right()
-        every { resourceResolver.getString(R.string.activation__success_snackbar_title) } returns "Success"
         createViewModel()
 
         viewModel.loadingState.test {

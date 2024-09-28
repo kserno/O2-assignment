@@ -9,8 +9,4 @@ import dagger.hilt.components.SingletonComponent
 
 @Module(includes = [CoreUiModule::class])
 @InstallIn(SingletonComponent::class)
-interface CoreModule {
-
-    @Binds
-    fun bindsResourceResolver(impl: ResourceResolverImpl): ResourceResolver
-}
+interface CoreModule

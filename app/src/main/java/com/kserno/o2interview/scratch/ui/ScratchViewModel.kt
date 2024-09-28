@@ -6,7 +6,6 @@ import com.kserno.o2interview.R
 import com.kserno.o2interview.card.domain.Card
 import com.kserno.o2interview.card.domain.ObserveCardUseCase
 import com.kserno.o2interview.card.ui.CardUiMapper
-import com.kserno.o2interview.core.ResourceResolver
 import com.kserno.o2interview.core.exception.ExceptionUiMapper
 import com.kserno.o2interview.core.invoke
 import com.kserno.o2interview.core.viewmodel.BaseViewModel
@@ -28,7 +27,6 @@ class ScratchViewModel @Inject constructor(
     private val scratchCard: ScratchCardUseCase,
     private val cardUiMapper: CardUiMapper,
     private val exceptionUiMapper: ExceptionUiMapper,
-    private val resourceResolver: ResourceResolver,
 ) : BaseViewModel<State, Event, Action>() {
     override val title: FormattedString = R.string.scratch__toolbar_title.asResourceString()
     override val initialState: State get() = State.Loading
@@ -80,7 +78,7 @@ class ScratchViewModel @Inject constructor(
 
     private fun onScratchSuccess() {
         hideLoading()
-        emitSnackbar(SnackbarEvent.InfoSnackbar(resourceResolver.getString(R.string.scratch__scratched_success)))
+        emitSnackbar(SnackbarEvent.InfoSnackbar(R.string.scratch__scratched_success.asResourceString()))
     }
 }
 

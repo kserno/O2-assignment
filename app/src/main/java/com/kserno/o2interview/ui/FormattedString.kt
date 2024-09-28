@@ -1,5 +1,6 @@
 package com.kserno.o2interview.ui
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -15,5 +16,10 @@ fun @receiver:StringRes Int.asResourceString() = FormattedString.ResourceString(
 @Composable
 fun FormattedString.asString() = when (this) {
     is FormattedString.ResourceString -> stringResource(id)
+    is FormattedString.PlainString -> text
+}
+
+fun FormattedString.resolve(context: Context) = when (this) {
+    is FormattedString.ResourceString -> context.getString(id)
     is FormattedString.PlainString -> text
 }

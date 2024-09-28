@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.google.android.material.snackbar.Snackbar
@@ -50,6 +51,7 @@ fun Page(
     val errorSnackbarHost = remember { SnackbarHostState() }
     val infoSnackbarHost = remember { SnackbarHostState() }
     val successSnackbarHost = remember { SnackbarHostState() }
+    val context = LocalContext.current
 
     Scaffold(
         topBar = {
@@ -96,9 +98,9 @@ fun Page(
     LaunchedEffect(key1 = Unit) {
         snackbarFlow.collectLatest {
             when (it) {
-                is SnackbarEvent.ErrorSnackbar -> errorSnackbarHost.showSnackbar(message = it.message)
-                is SnackbarEvent.InfoSnackbar -> infoSnackbarHost.showSnackbar(message = it.message)
-                is SnackbarEvent.SuccessSnackbar -> successSnackbarHost.showSnackbar(message = it.message)
+                is SnackbarEvent.ErrorSnackbar -> errorSnackbarHost.showSnackbar(message = it.message.resolve(context))
+                is SnackbarEvent.InfoSnackbar -> infoSnackbarHost.showSnackbar(message = it.message.resolve(context))
+                is SnackbarEvent.SuccessSnackbar -> successSnackbarHost.showSnackbar(message = it.message.resolve(context))
             }
         }
     }

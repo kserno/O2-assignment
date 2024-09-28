@@ -38,7 +38,6 @@ class ScratchViewModelTest {
     private val scratchCardUseCase: ScratchCardUseCase = mockk()
     private val cardUiMapper: CardUiMapper = mockk()
     private val exceptionUiMapper: ExceptionUiMapper = mockk()
-    private val resourceResolver: ResourceResolver = mockk()
 
     private lateinit var viewModel: ScratchViewModel
 
@@ -48,7 +47,6 @@ class ScratchViewModelTest {
             scratchCard = scratchCardUseCase,
             cardUiMapper = cardUiMapper,
             exceptionUiMapper = exceptionUiMapper,
-            resourceResolver = resourceResolver,
         )
     }
 
@@ -79,14 +77,13 @@ class ScratchViewModelTest {
     fun `Given scratch is success When user clicks scratch Then show success snackbar`() = runTest {
         coEvery { scratchCardUseCase() } returns Unit.right()
         every { observeCardUseCase.invoke() } returns emptyFlow()
-        every { resourceResolver.getString(R.string.scratch__scratched_success) } returns "text"
         createViewModel()
 
         viewModel.onAction(Action.ScratchClick)
 
         coVerify { scratchCardUseCase.invoke() }
         viewModel.snackbarFlow.test {
-            awaitItem() shouldBe SnackbarEvent.InfoSnackbar("text")
+            awaitItem() shouldBe SnackbarEvent.InfoSnackbar(R.string.scratch__scratched_success.asResourceString())
         }
     }
 
@@ -94,7 +91,6 @@ class ScratchViewModelTest {
     fun `Given scratching Then show loading correctly`() = runTest {
         every { observeCardUseCase.invoke() } returns emptyFlow()
         coEvery { scratchCardUseCase.invoke() } returns Unit.right()
-        every { resourceResolver.getString(R.string.scratch__scratched_success) } returns "text"
         createViewModel()
 
         viewModel.loadingState.test {

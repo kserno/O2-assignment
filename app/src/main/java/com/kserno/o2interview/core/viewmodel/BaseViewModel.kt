@@ -45,6 +45,12 @@ abstract class BaseViewModel<State, Event, Action> :
         }
     }
 
+    override fun onCleared() {
+        clearSnackbarHandlerScope()
+        clearLoadingHandlerScope()
+        super.onCleared()
+    }
+
     abstract fun handleAction(action: Action)
 }
 
